@@ -1,6 +1,6 @@
 ---
 title: Application to AI context and memory
- description: placeholder
+description: Scoped external memory, iterative retrieval, attributed interpretations, and authorized corrections.
 section: Applications
 order: 83
 evidence: Proposed application and empirical hypotheses
