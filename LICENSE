@@ -1,0 +1,39 @@
+Vast Development Method Theory — documentation license
+
+Copyright (c) 2026 Llewellyn van der Merwe.
+
+Except where separately identified, the original prose, mathematical exposition,
+and authored diagrams in DOCS/ and the repository's explanatory Markdown files
+are licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).
+
+The full, controlling public license is incorporated by reference:
+https://creativecommons.org/licenses/by/4.0/legalcode
+Plain-text legal code:
+https://creativecommons.org/licenses/by/4.0/legalcode.txt
+SPDX-License-Identifier: CC-BY-4.0
+
+Attribution identification:
+  Author: Llewellyn van der Merwe
+  Work: Vast Development Method Theory
+  Publisher: Vast Development Method
+  Source: https://theory.vdm.io
+  Repository: https://github.com/vast-development-method/theory
+
+Retain applicable copyright and license notices, provide appropriate attribution
+and the license link, and indicate modifications as required by CC BY 4.0. Do not
+imply the author's or publisher's endorsement. This identification does not add
+conditions to or narrow the permissions in CC BY 4.0.
+
+Scope exceptions:
+- Original executable code, build scripts, website CSS/JavaScript/templates and
+  tests are licensed under LICENSES/MIT.txt.
+- VDM logos and other brand assets are excluded from the documentation and code
+  licenses. They are supplied for this official publication. No trademark license
+  or permission to impersonate the publisher is granted.
+- Third-party software and quoted source retain their original licenses. Links to
+  JCB do not relicense JCB. No upstream GPL implementation is included in the MIT
+  reference model.
+
+The historical implementation's 2016 provenance date is not the creation date of
+this 2026 edition. Copyright licensing covers protected expression; it does not
+claim exclusive rights over ideas, mathematical truths, or methods of operation.
