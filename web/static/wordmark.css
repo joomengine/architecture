@@ -1,0 +1,16 @@
+/* Source-lettering wordmark only; the publication theme is unchanged. */
+.wordmark {
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin: 4px 0 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.wordmark > svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
