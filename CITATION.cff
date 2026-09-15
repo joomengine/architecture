@@ -1,30 +1,27 @@
 cff-version: 1.2.0
-message: "Please cite the white paper when discussing VDMT; cite a pinned source revision for implementation claims."
-title: "Vast Development Method Theory: Contextual Recollection, Staged Synthesis, and Persistent Editorial Reconciliation"
+message: "Please cite this architectural white paper when using its explanatory account or formalisation."
+type: article
+title: "Joomla Component Builder: Contextual Compilation Architecture"
+abstract: >-
+  A compiler-centred account of structured intent, portable blueprint graphs,
+  entity discovery, contextual classification, intermediate stores, deferred
+  processing, staged generation, extrusion, and regeneration in Joomla Component
+  Builder. The paper develops language-neutral operational and mathematical
+  descriptions with source correspondence and public worked examples.
 authors:
   - family-names: "van der Merwe"
     given-names: "Llewellyn"
-version: 0.1.0
-date-released: 2026-09-15
-url: "https://theory.vdm.io"
-repository-code: "https://github.com/vast-development-method/theory"
-license:
-  - CC-BY-4.0
-  - MIT
+    affiliation: "Vast Development Method"
+version: 1.0.0
+date-released: 2026-09-16
+url: "https://architecture.joomlacomponentbuilder.com"
+repository-code: "https://github.com/joomengine/architecture"
+license: CC-BY-4.0
 keywords:
-  - contextual closure
-  - staged synthesis
-  - round-trip engineering
   - compiler architecture
-  - scoped memory
-preferred-citation:
-  type: report
-  title: "Vast Development Method Theory: Contextual Recollection, Staged Synthesis, and Persistent Editorial Reconciliation"
-  authors:
-    - family-names: "van der Merwe"
-      given-names: "Llewellyn"
-  year: 2026
-  version: 0.1.0
-  institution:
-    name: "Vast Development Method"
-  url: "https://theory.vdm.io"
+  - model-driven engineering
+  - contextual compilation
+  - code generation
+  - portable blueprints
+  - dependency resolution
+  - Joomla Component Builder

@@ -2,7 +2,7 @@ name: Publication
 
 on:
   push:
-    branches: [main, vdmt-formal-specification]
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
@@ -16,18 +16,18 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
       - name: Archive reviewed source
-        run: git archive --format=zip --prefix=vdmt/ HEAD > vdmt-source.zip
+        run: git archive --format=zip --prefix=jcb-architecture/ HEAD > jcb-architecture-source.zip
       - name: Retain source edition
         uses: actions/upload-artifact@v7.0.1
         with:
-          name: vdmt-source
-          path: vdmt-source.zip
+          name: jcb-architecture-source
+          path: jcb-architecture-source.zip
           retention-days: 14
       - uses: actions/setup-python@v6
         with:
@@ -35,9 +35,9 @@ jobs:
           cache: pip
       - name: Install publication dependencies
         run: python -m pip install -r requirements.txt -r requirements-dev.txt
-      - name: Test abstract contracts and publication tooling
+      - name: Test architectural mechanisms and publication tooling
         run: python -m unittest discover -s tests -v
-      - name: Run the complete reference demonstration
+      - name: Run the reference demonstration
         run: |
           mkdir -p validation
           python examples/demo.py > validation/reference-demo.json
@@ -51,15 +51,15 @@ jobs:
         run: python scripts/check_site.py
       - name: Install browser
         run: python -m playwright install --with-deps chromium
-      - name: Check rendering, navigation, math, and theme behavior
+      - name: Check rendering, navigation, math, and theme behaviour
         run: python scripts/browser_check.py
       - name: Retain publication and review evidence
         if: always()
         uses: actions/upload-artifact@v7.0.1
         with:
-          name: vdmt-publication
+          name: jcb-architecture-publication
           path: |
-            vdmt-site.zip
+            jcb-architecture-site.zip
             validation/
             vendor/manifest.json
           if-no-files-found: warn

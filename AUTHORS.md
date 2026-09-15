@@ -1,7 +1,9 @@
-# Authorship and contribution record
+# Authorship
 
-**Llewellyn van der Merwe** — originator of the architecture, author of the originating JCB implementation, source of the practical account and independent-development testimony, and intended author/publisher of the VDMT research exposition through Vast Development Method.
+**Llewellyn van der Merwe** is the author of this white paper and the originator and principal implementer of the Joomla Component Builder architecture it describes.
 
-This 2026 documentation edition and its original reference implementation were prepared with AI assistance for the originator's review. The publication does not imply that a degree has been awarded, that an institution has endorsed it, or that independent peer review has been completed.
+**Vast Development Method** is the publisher and the engineering organisation supporting the work. Research, editorial, and tooling assistance support the author's account; they do not replace its authorship or present the publication as an external assessment of the project.
 
-Earlier mathematical and architectural work is credited in `DOCS/foundations/related-work.md` and `DOCS/reference/bibliography.md`. JCB contributors retain attribution for their work. Future contributors should be recorded with their actual contributions rather than silently incorporated into a sole-authorship claim.
+The account of independent development is the author's history of building and maintaining JCB. Related mathematical and software-engineering work is credited as prior work and retrospective correspondence, without implying an influence that did not occur.
+
+The publication's authorship does not imply authorship of Joomla, third-party libraries, cited research, or every application generated with JCB. Those works retain their own attribution and licenses.

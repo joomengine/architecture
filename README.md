@@ -1,63 +1,48 @@
-# Vast Development Method Theory
+# Joomla Component Builder: Contextual Compilation Architecture
 
-**VDMT — a formal framework for contextual recollection, staged synthesis, and persistent editorial reconciliation.**
+**A technical white paper by Llewellyn van der Merwe**  
+Published by Vast Development Method · Architecture edition 1.0.0 · 16 September 2026
 
-**Originator:** Llewellyn van der Merwe · **Publisher:** Vast Development Method  
-**Publication:** https://theory.vdm.io · **Specification:** 0.1.0 · **Document edition:** 15 September 2026
+**Publication:** https://architecture.joomlacomponentbuilder.com  
+**Official implementation:** https://github.com/joomengine/Joomla-Component-Builder
 
-VDMT describes how a system gathers a structured context, follows dependencies revealed by that context, recollects and derives information in scoped stores, expands reusable definitions into distinct occurrences, binds that information into artifacts in ordered stages, and preserves explicitly marked human adaptations across regeneration. It is language-independent: PHP, Joomla, files, and string placeholders are implementation choices rather than its mathematical definition.
+This publication explains how Joomla Component Builder turns structured development intent into complete native extensions. The compiler is the centre of the account: it acquires definitions and dependencies, interprets their uses in context, distributes their consequences into specialised intermediate stores, completes deferred work, and materialises components, modules, and plugins through ordered generation stages.
 
-The key abstraction is **contextual closure followed by staged materialization, with a persistent, explicitly bounded feedback path**. The inner loop completes the knowledge required for a build. The outer loop incorporates admissible edits between builds. These loops have different state spaces and different correctness conditions; treating them as one unrestricted recursion obscures the architecture.
+Blueprint export, repository discovery, local import, installed-component extrusion, and regeneration connect that compiler to a larger development lifecycle. Definitions are portable working knowledge; generated applications are deployable products. Their relationship is demonstrated using the Hello World blueprint and its three generated extension repositories.
 
-## Read the work
+The white paper expresses these mechanisms through language-neutral definitions, transition systems, graphs, equations, pseudocode, and worked traces. Source correspondence and primary references accompany the explanation. The formal model describes the architecture rather than replacing it with an unrelated idealised compiler.
 
-Start with [the overview](DOCS/index.md), the [white paper](DOCS/white-paper.md), and the [reading guide](DOCS/reading-guide.md). The complete Markdown corpus is in **`DOCS/`**. Every published article has its own same-origin Markdown URL, a Markdown download action, source link, citation information, and stable HTML URL. The build also produces a complete Markdown edition, an article manifest with SHA-256 hashes, an `llms.txt` index, and a full-text research corpus. Markdown is the source of truth, not an export maintained separately from the website.
+## Reading
 
-The publication separates:
+Start with the [overview](DOCS/index.md), [white paper](DOCS/white-paper.md), and [reading guide](DOCS/reading-guide.md). All articles are authored in `DOCS/`. The website provides an exact Markdown alternate for every article, a complete Markdown edition, a ZIP of the article sources, an article manifest with SHA-256 hashes, a search index, and a machine-readable full-text corpus.
 
-* **Foundations and semantics:** typed state, context closure, guarded derivation, fixed points, determinism, confluence, composition, and termination.
-* **Mechanisms:** contextual memory, nested gathering, definition/occurrence identity, hierarchical reuse, staged binding, materialization, round-trip editing, reconciliation, invalidation, provenance, and self-generation.
-* **Evidence and evaluation:** the JCB implementation case study, historical source, related work, reference-model tests, performance methodology, cognitive hypotheses, and review obligations.
+The reading path covers the model and its identity system, blueprint exchange, compiler execution, generated application concerns, installed-component extrusion, public worked examples, formal semantics, and implementation guidance. The reference section supplies source maps, terminology, provenance, and the bibliography.
 
-## First disclosed implementation
-
-The method is publicly embodied in **Joomla Component Builder**, developed by Llewellyn van der Merwe. The authoritative repository is [joomengine/Joomla-Component-Builder](https://github.com/joomengine/Joomla-Component-Builder).
-
-Its root commit, [`ecf47809f960bd057af8a414168fada6fe22c5f7`](https://github.com/joomengine/Joomla-Component-Builder/commit/ecf47809f960bd057af8a414168fada6fe22c5f7), records **30 January 2016, 20:28:43 UTC** (22:28:43 at UTC+02:00), names Llewellyn van der Merwe as author and committer, and is titled “first commit of free version.” The [compiler in that same commit](https://github.com/joomengine/Joomla-Component-Builder/blob/ecf47809f960bd057af8a414168fada6fe22c5f7/admin/helpers/compiler.php) already contains specialized builder arrays, static/dynamic content stores, database loading, staged file construction, and a later file-update pass. The provenance therefore rests on executable source, **not on the GPL license text alone**.
-
-**30 January 2016 is the historical public-source provenance date of the method's implementation.** This repository's 2026 edition formalizes and names its abstractions; it does not backdate this manuscript, the present class layout, or every subsequently introduced feature. The author places private development approximately two years before public release and reports independent development without prior awareness of the related theories surveyed here. Those recollections are identified as author testimony, while earlier mathematical and architectural work is explicitly credited. See [provenance](DOCS/foundations/provenance.md).
-
-The contemporary case study is pinned to JCB commit `bca4a1520484f3e2c2fbd12964a5995b0d058de1`. JCB is the originating implementation studied here, not a dependency of VDMT and not a claim that no comparable earlier systems existed.
-
-## Scientific status
-
-This is a research white paper and formal architectural specification, **not a claim of an awarded doctorate or completed peer review**. Conditional propositions are proved for the explicitly defined model. Observations of JCB, author reports, mathematical deductions, proposed extensions, and empirical hypotheses are labeled separately. In particular, self-generation does not establish Turing completeness, and neither source inspection nor an impressive line-count expansion establishes universal performance or cognitive optimality.
-
-The reported 30,000-to-1.3-million-line build in approximately 60 seconds is retained as an author-reported observation with a reproducibility protocol, not relabeled as a benchmark conducted for this paper.
-
-## Build and test
+## Build and validate
 
 ```bash
 python3 -m venv .venv
 . .venv/bin/activate
-python -m pip install -r requirements.txt
+python -m pip install -r requirements.txt -r requirements-dev.txt
 python -m unittest discover -s tests -v
+python examples/demo.py
 python scripts/vendor.py
 python scripts/build.py
 python scripts/check_site.py
+python -m playwright install chromium
+python scripts/browser_check.py
+python scripts/archive.py
 python -m http.server 8000 --directory site
 ```
 
-The reference model is runnable with `python examples/demo.py`. It is deliberately smaller than JCB and tests the abstract laws rather than pretending to reproduce Joomla compilation. See [implementation guidance](DOCS/engineering/implementation-guide.md).
+The reference demonstration exercises discrete mechanisms explained in the paper. It is not a replacement for installing Joomla and running the full compiler. The publication checks validate article structure, exact Markdown alternatives, links and anchors, mathematics, diagrams, search, theme selection, and desktop/mobile rendering.
 
-GitHub Actions builds and tests pull requests without publishing them. A merge to `main` publishes the checked `site/` artifact through GitHub Pages. Repository Pages settings and DNS must select `theory.vdm.io`; the `CNAME` file alone does not configure those services. See [publication and maintenance](DOCS/reference/publication.md).
+GitHub Actions validates pull requests without publishing them. Only a successful build of `main` can deploy through GitHub Pages. Repository-side domain configuration is generated from `site.json`; Pages settings and DNS must separately point to the intended domain.
 
-## Attribution and licenses
+## Authorship and reuse
 
-Original explanatory prose, mathematical exposition, and authored diagrams: **[CC BY 4.0](LICENSE)**. Original website tooling and executable reference examples: **[MIT](LICENSES/MIT.txt)**. VDM brand assets and separately identified third-party material retain their own rights and notices.
+The architecture and explanatory account are by **Llewellyn van der Merwe**. **Vast Development Method** publishes the work. The account preserves the architecture's independent development history and credits established research where the mechanisms have retrospective correspondences.
 
-Suggested citation:
+Original prose, mathematical exposition, and authored diagrams are licensed under [CC BY 4.0](LICENSE). Publication tooling and executable reference examples are under [MIT](LICENSES/MIT.txt). VDM branding and identified third-party materials retain their respective notices. Source references do not transfer ownership of upstream work.
 
-> van der Merwe, Llewellyn. *Vast Development Method Theory: Contextual Recollection, Staged Synthesis, and Persistent Editorial Reconciliation*. Version 0.1.0, Vast Development Method, 2026. https://theory.vdm.io. Historical public implementation: Joomla Component Builder, 30 January 2016.
-
-Use `CITATION.cff` for machine-readable attribution. CC BY retains copyright and requires attribution for reuse of the licensed expression; it does not create exclusive ownership of mathematical ideas or independently implemented algorithms. See [the licensing analysis](DOCS/reference/licensing.md).
+Use [CITATION.cff](CITATION.cff) for citation metadata. The version identifies this architectural publication, not a Joomla Component Builder software release.
