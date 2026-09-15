@@ -1,0 +1,23 @@
+{
+  "packages": {
+    "mathjax": {
+      "version": "3.2.2",
+      "integrity": "sha512-Bt+SSVU8eBG27zChVewOicYs7Xsdt40qm4+UpHyX7k0/O9NliPc+x77k1/FEsPsjKPZGJvtRZM1vO+geW0OhGw==",
+      "tarball": "https://registry.npmjs.org/mathjax/-/mathjax-3.2.2.tgz",
+      "files": 84
+    },
+    "mermaid": {
+      "version": "11.12.0",
+      "integrity": "sha512-ZudVx73BwrMJfCFmSSJT84y6u5brEoV8DOItdHomNLz32uBjNrelm7mg95X7g+C6UoQH/W6mBLGDEDv73JdxBg==",
+      "tarball": "https://registry.npmjs.org/mermaid/-/mermaid-11.12.0.tgz",
+      "files": 200
+    }
+  },
+  "brand": {
+    "url": "https://avatars.githubusercontent.com/u/86449277?v=4&s=512",
+    "requested_url": "https://www.vdm.io/VDM.png",
+    "sha256": "86afca24819b7dbf31e9c3a22c305c34f155cadac76c9e94ff4d5f3c4f4c9a05",
+    "original_size": [460, 460],
+    "selection_note": "The requested www.vdm.io and vdm.io endpoints returned HTTP 403 during the reviewed build. The official organization's VDM avatar supplies the small mark and favicon; the supplied full wordmark is retained separately."
+  }
+}

@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import threading
+import traceback
 from playwright.sync_api import sync_playwright
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -48,30 +49,30 @@ def main() -> None:
                 assert page.locator('[data-mml-node="merror"]').count() == 0, record['url']
                 diagrams = page.locator('.mermaid').count()
                 assert page.locator('.mermaid svg').count() == diagrams, record['url']
-                overflow = page.evaluate('document.documentElement.scrollWidth > innerWidth + 2')
-                assert not overflow, 'Desktop overflow: ' + record['url']
+                assert not page.evaluate('document.documentElement.scrollWidth > innerWidth + 2'), 'Desktop overflow: ' + record['url']
                 raw = context.request.get(base + record['markdown_url'])
-                assert raw.status == 200 and raw.body() == (ROOT / 'DOCS' / record['path']).read_bytes()
+                assert raw.status == 200 and raw.body() == (ROOT / 'DOCS' / record['path']).read_bytes(), 'Markdown mismatch: ' + record['url']
                 report['pages'].append({'url': record['url'], 'math_regions': math_count, 'diagrams': diagrams, 'markdown_exact': True})
             page.goto(base + '/', wait_until='networkidle')
             page.evaluate('async () => { await MathJax.startup.promise; await window.vdmtDiagramsReady; }')
-            assert page.locator('html').get_attribute('data-theme') == 'light'
+            assert page.locator('html').get_attribute('data-theme') == 'light', 'Initial system theme'
             page.screenshot(path=str(output / 'home-light.png'), full_page=True)
             page.emulate_media(color_scheme='dark')
             page.wait_for_function('document.documentElement.dataset.theme === "dark"')
             page.screenshot(path=str(output / 'home-dark.png'), full_page=True)
             page.select_option('#theme', 'light')
             page.reload(wait_until='networkidle')
-            assert page.locator('html').get_attribute('data-theme') == 'light'
+            assert page.locator('html').get_attribute('data-theme') == 'light', 'Persisted manual theme'
             page.select_option('#theme', 'system')
             page.wait_for_function('document.documentElement.dataset.theme === "dark"')
             report['interactions']['system_and_manual_theme'] = True
             page.locator('.sidebar .search-open').click()
             page.fill('#search-input', 'context closure')
             page.wait_for_selector('.search-result')
-            assert page.locator('.search-result').count() > 0
+            assert page.locator('.search-result').count() > 0, 'Search result count'
             page.keyboard.press('Escape')
-            assert not page.locator('#search-dialog').evaluate('(node) => node.open')
+            # Native dialog cancellation is processed asynchronously by the browser.
+            page.wait_for_function('!document.querySelector("#search-dialog").open')
             report['interactions']['search_and_escape'] = True
             page.goto(base + '/white-paper/', wait_until='networkidle')
             page.evaluate('async () => { await MathJax.startup.promise; await window.vdmtDiagramsReady; }')
@@ -85,14 +86,14 @@ def main() -> None:
                 assert not page.evaluate('document.documentElement.scrollWidth > innerWidth + 2'), 'Mobile overflow: ' + record['url']
             page.goto(base + '/', wait_until='networkidle')
             page.locator('#menu-open').click()
-            assert page.locator('#menu-dialog').evaluate('(node) => node.open')
+            assert page.locator('#menu-dialog').evaluate('(node) => node.open'), 'Mobile navigation opens'
             page.keyboard.press('Escape')
-            assert not page.locator('#menu-dialog').evaluate('(node) => node.open')
+            page.wait_for_function('!document.querySelector("#menu-dialog").open')
             page.screenshot(path=str(output / 'mobile.png'), full_page=True)
             report['interactions']['mobile_navigation_and_layout'] = True
             browser.close()
-    except Exception as error:
-        report['errors'].append(str(error))
+    except Exception:
+        report['errors'].append(traceback.format_exc())
     finally:
         server.shutdown()
         server.server_close()
