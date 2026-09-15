@@ -1,51 +1,42 @@
 ---
-title: Historical provenance and authorship
-description: The public implementation date, author attribution, early source evidence, and the distinction between a method and a later formal edition.
+title: Development and provenance
+description: The author's independent development history, the public source record, and the relationship between implementation history and this formal account.
 section: Foundations
-order: 13
-evidence: Historical record and author testimony
+order: 15
+evidence: Author's development account and public source history
 ---
-# Historical provenance and authorship
+# Development and provenance
 
-## Historical public implementation date
+Joomla Component Builder originated as my independently developed response to the recurring work of building complete Joomla extensions. The objective was practical: express application intent in manageable definitions, reuse implementation knowledge, and repeatedly produce the detailed code and structure that Joomla applications require.
 
-**30 January 2016** is the date recorded for the initial public-source implementation in Joomla Component Builder's authoritative history. The root commit is `ecf47809f960bd057af8a414168fada6fe22c5f7`, with author and committer timestamp `2016-01-30T20:28:43Z`, no parents, and the message “first commit of free version.” Both identities name **Llewellyn van der Merwe**. At UTC+02:00, the timestamp is **22:28:43** on the same date. [J01](../reference/bibliography.md#j01)
+I developed the original approach without awareness of several of the compiler and model-driven engineering systems discussed in this publication. The connections to attribute grammars, staged generation, memoization, and other established work were identified retrospectively. They help describe the architecture accurately; they are not an invented account of what influenced its beginnings.
 
-The `LICENSE.txt` history leads to that commit. More importantly, the compiler included in the same tree already contains the characteristic combination of dedicated builder arrays, static and dynamic content collections, database-loaded component data, template-based file construction, and a subsequent file-content update pass. [J02](../reference/bibliography.md#j02)
+**Llewellyn van der Merwe**
 
-The historical claim is therefore substantive: the architecture was embodied in distributed executable source, not merely named in a later biography. A Git commit records repository history and timestamps; it is not, by itself, an independent timestamping authority or a complete log of a hosting service's past visibility settings. This edition uses the root public-source history, together with the author's account, as its disclosure record rather than claiming a separate legal determination of priority.
+## The public implementation record
 
-## Development before public release
+The official source lineage begins with commit `ecf47809f960bd057af8a414168fada6fe22c5f7`, titled “first commit of free version,” recorded on **30 January 2016 at 20:28:43 UTC**. The compiler in that revision already uses specialised builder arrays, static and dynamic content stores, component-data loading, structure construction, and a later file-update sequence. [C23](../reference/source-map.md#c23)
 
-Llewellyn places the beginning of private development approximately two years before public release. That makes **around 2014** an approximate author-reported origin, not an exact day. The historical compiler header separately records `@created 30th April, 2015`, `@build 30th January, 2016`, and his authorship. Those are different milestones and are preserved as such. [J02](../reference/bibliography.md#j02)
+That source is evidence of an implemented architecture at that date. It does not date every later capability, the present service layout, or this mathematical exposition to the same point in time. The source header also records an earlier creation date, while the author's development account describes work preceding public release. These are distinct kinds of historical record.
 
-A header date is evidence of what that source reports; it does not disprove earlier private experimentation. Nor should the approximate start be converted into a fabricated precise date.
+## From a large compiler to specialised services
 
-## Attribution
+The early compiler concentrated substantial behaviour in large classes. Over subsequent years, responsibilities were separated into services and object-oriented collaborators: component data, field processing, specialised builders, placeholders, language services, Power handling, architecture-specific emitters, and file-updating utilities.
 
-The method's originator is **Llewellyn van der Merwe**, working through Vast Development Method. The primary evidence includes the root commit authorship and the original compiler header. The contemporary source retains that attribution. JCB's broader contributor community is not erased by attributing the architectural origin to its author.
+The continuity lies in the dataflow and its responsibilities, not in preserving one class arrangement. Definitions are acquired, their consequences are organised, context is established at use-sites, and output is assembled through ordered work. Refactoring can change where a responsibility lives without changing the architectural purpose it serves.
 
-The canonical project name is **Joomla Component Builder (JCB)**. The authoritative repository cited in this publication is `joomengine/Joomla-Component-Builder`; its project domain is linked from the pinned README. No knowledge of Joomla is required to use the abstract framework. [J03](../reference/bibliography.md#j03)
+The current [source map](../reference/source-map.md) names the inspected implementation paths. Historical and contemporary paths are kept separate so that the publication's references remain reproducible.
 
-## Independent development and related work
+## Authorship and prior work
 
-Llewellyn reports that he developed the architecture independently, without prior awareness of the theories compared in this paper. We retain that statement explicitly as author testimony. Source history cannot prove what literature an author had or had not encountered. Independent development is compatible with convergence on useful ideas already studied elsewhere.
+The architecture described here is my work and this is my white paper, supported by research and editorial assistance. Joomla, reusable third-party libraries, and the research cited in the bibliography retain their own authorship.
 
-Accordingly, the paper credits fixed-point semantics, compiler staging, dependency-driven build systems, blackboard and working-memory architectures, and bidirectional transformations. It does not claim their invention or suggest that resemblance diminishes the engineering contribution of their particular composition in JCB.
+Independent development and historical priority are different statements. A mechanism can have been independently derived in JCB while corresponding to a principle published earlier. Giving that earlier work its proper credit makes the explanation more useful: readers can connect the implementation to a larger body of knowledge without erasing the actual development history.
 
-## Method, implementation, and manuscript dates
+The [related mechanisms in the bibliography](../reference/bibliography.md) therefore identify precise correspondences. A shared store resembles some aspects of blackboard coordination; context-sensitive attributes resemble aspects of attribute-grammar evaluation; marked-edit recovery relates to round-trip engineering. None of those observations requires that JCB implement another system's complete formalism.
 
-Three dates must not be collapsed:
+## The purpose of this edition
 
-| Record | Date and status |
-| --- | --- |
-| Approximate private origin | Around 2014, author testimony |
-| Historical source header creation | 30 April 2015, reported in the original compiler |
-| Public-source implementation lineage | 30 January 2016, root JCB commit |
-| This formal specification edition | 15 September 2026, version 0.1.0 |
+This edition collects the implemented mechanisms into an architectural account that can be read independently of the PHP codebase. It supports three activities: understanding how JCB works, implementing its architectural choices in another technology, and studying the resulting model when considering future work.
 
-The phrase “VDMT has a public implementation lineage from 2016” is appropriate. The phrase “this 2026 manuscript was published in 2016” is not. Similarly, the early builder arrays support a historical staged-memory interpretation, but they do not prove that every modern extraction, service, or dependency mechanism existed at the root commit.
-
-## Preserving the record
-
-Citations should retain full commit identifiers, source paths, and the edition of the theory. Future corrections should be additive and reviewable. A formal publication archive or DOI may be created later, but none is invented in this edition. See [citation guidance](../reference/citation.md) and [the historical case study](../jcb/historical-implementation.md).
+The edition documents the present mechanism before proposing changes to it. Its mathematical vocabulary is a way to expose relationships, state changes, and ordering—not a substitute for the implementation record. [Edition and sources](../reference/edition.md)
