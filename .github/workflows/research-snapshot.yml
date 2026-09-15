@@ -1,0 +1,61 @@
+name: Architecture source corpus
+
+on:
+  push:
+    branches: [compiler-architecture-white-paper]
+    paths: [.github/workflows/research-snapshot.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Collect source snapshots without executing project code
+        shell: bash
+        env:
+          GIT_TERMINAL_PROMPT: '0'
+        run: |
+          set -euo pipefail
+          mkdir -p corpus/architecture
+          git archive HEAD | tar -x -C corpus/architecture
+          printf 'architecture\tjoomengine/architecture\t%s\n' "$(git rev-parse HEAD)" > corpus/revisions.tsv
+          while read -r name repository; do
+            printf '\nCollecting %s\n' "$repository"
+            if git clone --depth=1 --quiet "https://github.com/${repository}.git" "corpus/${name}"; then
+              printf '%s\t%s\t%s\n' "$name" "$repository" "$(git -C "corpus/${name}" rev-parse HEAD)" >> corpus/revisions.tsv
+              rm -rf "corpus/${name}/.git"
+            else
+              printf '%s\t%s\tUNAVAILABLE\n' "$name" "$repository" >> corpus/revisions.tsv
+            fi
+          done <<'REPOSITORIES'
+          official joomengine/Joomla-Component-Builder
+          supplementary extension-builder/joomla
+          documentation joomengine/jcb-documentation
+          hello-blueprint vast-development-method/hello-world-blueprint
+          hello-component vast-development-method/hello-world-joomla-component
+          hello-module vast-development-method/hello-world-joomla-module
+          hello-plugin vast-development-method/hello-world-joomla-plugin
+          packages joomengine/packages
+          powers joomengine/super-powers
+          fieldtypes joomengine/joomla-fieldtypes
+          repoindex joomengine/repoindex
+          snippets joomengine/snippets
+          service-directory joomengine/Joomla-Service-Directory
+          joomla-packages joomengine/joomla-packages
+          joomla-powers joomengine/joomla-powers
+          REPOSITORIES
+          cat corpus/revisions.tsv
+          tar -czf architecture-source-corpus.tar.gz corpus
+      - name: Retain source corpus for review
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: architecture-source-corpus
+          path: architecture-source-corpus.tar.gz
+          retention-days: 7
+          compression-level: 0
