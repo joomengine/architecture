@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "blueprint": "hello-blueprint",
+  "fingerprint_method": "SHA-256 of compact UTF-8 JSON containing sorted [relative path, file SHA-256] pairs; no Git metadata or symlinks.",
+  "repositories": {
+    "hello-blueprint": {
+      "repository": "vast-development-method/hello-world-blueprint",
+      "revision": "5802e7c1d9bfaac005c765ccda830a7d07cd7e12",
+      "file_inventory_sha256": "deb8a77362d8a91c2cc54c7bc70e7b96ce65bb80cdbe2dd686fbdf21efed75a6",
+      "totals": {
+        "all": {"files": 82, "bytes": 264261, "text_files": 79, "physical_text_lines": 3122},
+        "assets": {"files": 4, "bytes": 68416, "text_files": 1, "physical_text_lines": 18},
+        "documentation": {"files": 22, "bytes": 100268, "text_files": 22, "physical_text_lines": 1198},
+        "index": {"files": 22, "bytes": 11885, "text_files": 22, "physical_text_lines": 269},
+        "other": {"files": 1, "bytes": 18092, "text_files": 1, "physical_text_lines": 339},
+        "payload": {"files": 33, "bytes": 65600, "text_files": 33, "physical_text_lines": 1298}
+      }
+    },
+    "hello-component": {
+      "repository": "vast-development-method/hello-world-joomla-component",
+      "revision": "a81c0dd8b8f41905671a86796a3e5995685fdaba",
+      "file_inventory_sha256": "d5028dddcf7b34529887736ddb4b53dda1607c2b8282ff5a08ec620254ce0424",
+      "totals": {
+        "all": {"files": 259, "bytes": 1087118, "text_files": 255, "physical_text_lines": 31981},
+        "product": {"files": 259, "bytes": 1087118, "text_files": 255, "physical_text_lines": 31981}
+      }
+    },
+    "hello-module": {
+      "repository": "vast-development-method/hello-world-joomla-module",
+      "revision": "20be318a6163e253c2a9803434622467d6006709",
+      "file_inventory_sha256": "beb7b2e544ed0c29e71f639e92fc91396198038b3614d9034b4afcd8582bd470",
+      "totals": {
+        "all": {"files": 19, "bytes": 19449, "text_files": 19, "physical_text_lines": 540},
+        "product": {"files": 19, "bytes": 19449, "text_files": 19, "physical_text_lines": 540}
+      }
+    },
+    "hello-plugin": {
+      "repository": "vast-development-method/hello-world-joomla-plugin",
+      "revision": "6a785145ee84212fec65a53b7c6c362ab0f8b408",
+      "file_inventory_sha256": "78fcbd62f39510aae94a705c05c465f0159fa18cdcc627958e6c1416d1dda35d",
+      "totals": {
+        "all": {"files": 12, "bytes": 15955, "text_files": 12, "physical_text_lines": 467},
+        "product": {"files": 12, "bytes": 15955, "text_files": 12, "physical_text_lines": 467}
+      }
+    }
+  }
+}
