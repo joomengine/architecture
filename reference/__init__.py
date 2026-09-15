@@ -1,1 +1,1 @@
-"""Original, bounded VDMT reference model. Licensed under MIT."""
+"""Executable mechanisms accompanying the JCB architectural white paper. MIT."""
