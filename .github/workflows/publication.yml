@@ -1,0 +1,85 @@
+name: Publication
+
+on:
+  push:
+    branches: [main, vdmt-formal-specification]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publication-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - name: Archive reviewed source
+        run: git archive --format=zip --prefix=vdmt/ HEAD > vdmt-source.zip
+      - name: Retain source edition
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: vdmt-source
+          path: vdmt-source.zip
+          retention-days: 14
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install publication dependencies
+        run: python -m pip install -r requirements.txt -r requirements-dev.txt
+      - name: Test abstract contracts and publication tooling
+        run: python -m unittest discover -s tests -v
+      - name: Acquire versioned browser assets
+        run: python scripts/vendor.py
+      - name: Build Markdown-first publication
+        run: python scripts/build.py
+      - name: Validate every article and Markdown alternate
+        run: python scripts/check_site.py
+      - name: Install browser
+        run: python -m playwright install --with-deps chromium
+      - name: Check rendering, navigation, math, and theme behavior
+        run: python scripts/browser_check.py
+      - name: Archive built publication
+        if: success()
+        run: python scripts/archive.py
+      - name: Retain publication and review evidence
+        if: always()
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: vdmt-publication
+          path: |
+            vdmt-site.zip
+            validation/
+            vendor/manifest.json
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Prepare Pages artifact
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: site
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Deploy checked publication
+        id: deployment
+        uses: actions/deploy-pages@v4
