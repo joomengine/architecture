@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Acquire versioned, integrity-checked browser assets; never run on page views.
+"""Acquire versioned browser assets and attributable official VDM branding.
 
-No font files are extracted. MathJax uses SVG glyph paths. Registry tarball
-integrity is checked, and vendor.lock.json additionally pins acquisition bytes
-when present. SPDX-License-Identifier: MIT
+No font files are extracted. MathJax uses SVG glyph paths. npm SHA-512 integrity
+and the checked-in acquisition lock protect dependency bytes. MIT.
 """
 from __future__ import annotations
 import base64
@@ -30,7 +29,8 @@ def acquire(url: str) -> bytes:
     error = None
     for attempt in range(3):
         try:
-            with urlopen(Request(url, headers={'User-Agent': 'VDMT-publication/0.1.0'}), timeout=60) as response:
+            headers = {'User-Agent': 'Mozilla/5.0 (compatible; VDMT-Publication/0.1.0)', 'Accept': '*/*'}
+            with urlopen(Request(url, headers=headers), timeout=60) as response:
                 if urlparse(response.geturl()).scheme != 'https':
                     raise ValueError('Insecure acquisition redirect.')
                 data = response.read(LIMIT + 1)
@@ -86,32 +86,53 @@ def package(name: str, version: str, expected: dict) -> dict:
     return {'version': version, 'integrity': integrity, 'tarball': dist['tarball'], 'files': count}
 
 
+def brand(expected: dict) -> dict:
+    # The originator's preferred URL is tried first. A public official-organization
+    # avatar is an explicitly recorded alternative, never an invented replacement.
+    candidates = [expected['url']] if expected.get('url') else [
+        'https://www.vdm.io/VDM.png', 'https://vdm.io/VDM.png',
+        'https://avatars.githubusercontent.com/u/86449277?v=4&s=512']
+    failures = []
+    data = None
+    selected = None
+    for url in candidates:
+        try:
+            data = acquire(url)
+            selected = url
+            break
+        except RuntimeError as error:
+            failures.append(str(error))
+    if data is None:
+        raise RuntimeError('Official branding acquisition failed: ' + '; '.join(failures))
+    digest = hashlib.sha256(data).hexdigest()
+    if expected.get('sha256') not in (None, digest):
+        raise ValueError('Locked VDM brand bytes changed; review before updating.')
+    Image.MAX_IMAGE_PIXELS = 80_000_000
+    with Image.open(io.BytesIO(data)) as source:
+        source.load()
+        original_size = list(source.size)
+        mark = ImageOps.contain(source.convert('RGBA'), (256, 256), Image.Resampling.LANCZOS)
+        canvas = Image.new('RGBA', (256, 256), (255, 255, 255, 0))
+        canvas.alpha_composite(mark, ((256 - mark.width) // 2, (256 - mark.height) // 2))
+        directory = DEST / 'brand'
+        directory.mkdir()
+        canvas.save(directory / 'mark.png', optimize=True)
+        canvas.save(directory / 'favicon.ico', sizes=[(16, 16), (32, 32), (48, 48)])
+        canvas.resize((180, 180), Image.Resampling.LANCZOS).save(directory / 'apple-touch-icon.png', optimize=True)
+    return {'url': selected, 'requested_url': 'https://www.vdm.io/VDM.png', 'sha256': digest,
+            'original_size': original_size, 'acquisition_notes': failures}
+
+
 def main() -> None:
     lock_path = ROOT / 'vendor.lock.json'
     locked = json.loads(lock_path.read_text()) if lock_path.exists() else {}
     if DEST.exists():
         shutil.rmtree(DEST)
     DEST.mkdir()
-    records = {'packages': {}, 'brand': {}}
+    records = {'packages': {}}
     for name, version in PACKAGES.items():
         records['packages'][name] = package(name, version, locked.get('packages', {}).get(name, {}))
-    image_data = acquire('https://www.vdm.io/VDM.png')
-    digest = hashlib.sha256(image_data).hexdigest()
-    if locked.get('brand', {}).get('sha256') not in (None, digest):
-        raise ValueError('The locked VDM brand source has changed; review before updating.')
-    Image.MAX_IMAGE_PIXELS = 80_000_000
-    with Image.open(io.BytesIO(image_data)) as source:
-        source.load()
-        original_size = list(source.size)
-        mark = ImageOps.contain(source.convert('RGBA'), (256, 256), Image.Resampling.LANCZOS)
-        canvas = Image.new('RGBA', (256, 256), (255, 255, 255, 0))
-        canvas.alpha_composite(mark, ((256 - mark.width) // 2, (256 - mark.height) // 2))
-        brand = DEST / 'brand'
-        brand.mkdir()
-        canvas.save(brand / 'mark.png', optimize=True)
-        canvas.save(brand / 'favicon.ico', sizes=[(16, 16), (32, 32), (48, 48)])
-        canvas.resize((180, 180), Image.Resampling.LANCZOS).save(brand / 'apple-touch-icon.png', optimize=True)
-    records['brand'] = {'url': 'https://www.vdm.io/VDM.png', 'sha256': digest, 'original_size': original_size}
+    records['brand'] = brand(locked.get('brand', {}))
     records['files'] = {path.relative_to(DEST).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest()
                         for path in sorted(DEST.rglob('*')) if path.is_file()}
     (DEST / 'manifest.json').write_text(json.dumps(records, indent=2) + '\n', encoding='utf-8')

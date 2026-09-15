@@ -1,7 +1,12 @@
 VDM branding identifies this official Vast Development Method publication.
 wordmark.webp is a resized derivative of vast_development_method.jpg supplied
-by the publication's originator. The favicon and small VDM mark are resized
-from https://www.vdm.io/VDM.png during the publication build.
+by the publication's originator.
+
+The small mark and favicon are derived from official VDM branding. The build
+first requests https://www.vdm.io/VDM.png. When that endpoint rejects automated
+acquisition, the official vast-development-method GitHub organization avatar is
+an explicitly recorded alternative. The exact selected URL, source digest, and
+acquisition notes are in assets/vendor/manifest.json and vendor.lock.json.
 
 These assets are excluded from CC BY 4.0 and MIT. Their use here does not grant
 permission to impersonate the publisher or claim endorsement. Original brand
