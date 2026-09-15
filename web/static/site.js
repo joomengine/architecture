@@ -71,6 +71,13 @@ document.querySelectorAll('.search-open').forEach(button => button.addEventListe
 document.querySelector('#menu-open').addEventListener('click', () => menu.showModal());
 document.querySelectorAll('[data-close]').forEach(button => button.addEventListener('click', () => document.getElementById(button.dataset.close).close()));
 searchInput.addEventListener('input', () => { clearTimeout(timer); timer = setTimeout(search, 120); });
+// Search inputs can consume Escape to clear text before native dialog cancellation.
+// Make a single Escape consistently dismiss the active publication dialog.
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape') return;
+  const activeDialog = searchDialog.open ? searchDialog : menu.open ? menu : null;
+  if (activeDialog) { event.preventDefault(); event.stopPropagation(); activeDialog.close(); }
+}, true);
 document.addEventListener('keydown', event => {
   if (event.key === '/' && !event.ctrlKey && !event.metaKey && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName) && !document.activeElement.isContentEditable) { event.preventDefault(); openSearch(); }
 });
