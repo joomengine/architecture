@@ -1,6 +1,10 @@
 VDM branding identifies this official Vast Development Method publication.
-wordmark.webp is a resized derivative of vast_development_method.jpg supplied
-by the publication's originator.
+The wordmark/ assets isolate blue lettering from the originator-supplied
+vast_development_method.jpg. The homepage composes them into one accessible,
+transparent, single-line SVG wordmark: VAST DEVELOPMENT METHOD THEORY.
+Existing letter shapes are reused; the R and Y extend the source construction.
+There is no separately loaded font, no mosaic backdrop, and no detached caption.
+The SVG is a layout for raster lettering; it is not represented as a vector font.
 
 The small mark and favicon are derived from official VDM branding. The build
 first requests https://www.vdm.io/VDM.png. When that endpoint rejects automated
