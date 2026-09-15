@@ -1,46 +1,53 @@
 ---
-title: Vast Development Method Theory
-description: A language-independent account of contextual recollection, staged synthesis, and persistent editorial reconciliation.
+title: Joomla Component Builder Architecture
+description: A compiler-centred white paper on structured intent, portable blueprints, contextual processing, and complete extension generation.
 section: Overview
 order: 0
-evidence: Formal framework
+evidence: Architectural account and source-linked examples
 ---
-# Vast Development Method Theory
+# Joomla Component Builder Architecture
 
-## From structured knowledge to reproducible artifacts
+**Contextual compilation from structured intent to complete applications**  
+**Llewellyn van der Merwe · Technical white paper · Edition 1.0.0**
 
-**Vast Development Method Theory (VDMT)** is a formal architectural framework for systems that repeatedly ask what information a task requires, recollect that information in context, derive further usable structure, and assemble consistent artifacts without losing explicitly preserved human adaptations.
+A field called *Greeting* appears to be a small definition: a type, a name, a label, and a few settings. In a generated application, that definition participates in a database column, an editor, a list query, sorting, searching, language entries, and a machine-readable table description. Its use in a view adds further decisions: whether it is the title, where it appears, and which interactions it supports. Those consequences must agree without being specified independently in every destination.
 
-Its central object is not a string template or a PHP registry. It is a **versioned configuration of knowledge, dependencies, contexts, derivations, artifact plans, and editorial memory**. Registries, databases, typed maps, graph stores, and files are possible representations of that configuration.
+Joomla Component Builder coordinates that work through a compiler. It retrieves definitions and their dependencies, interprets each use in context, distributes the results into specialised intermediate stores, retains work that must wait for other information, and binds completed material into native components, modules, and plugins. This publication explains that architecture at the level of its operations, mathematical structure, and observable products.
 
-The framework separates three activities that are often conflated:
+## Follow one definition through the system
 
-1. **Recollection:** resolve a request against an identified source snapshot, including requests discovered while resolving earlier requests.
-2. **Synthesis:** derive context-specific facts and fragments, then bind and materialize them according to an explicit dependency and phase order.
-3. **Reconciliation:** recover authorized, marked changes from existing artifacts and preserve them as input to the next synthesis epoch.
+The [Hello World example](examples/hello-world.md) connects a public blueprint repository to three generated extension repositories. The [Greeting field trace](examples/field-trace.md) follows a stable field identifier into its form, database schema, language keys, list behaviour, and generated metadata. The [custom-code trace](examples/custom-code-trace.md) follows deliberate markers from GUI-backed blueprint properties into their target methods and files.
 
-The first two operate within a build. The third connects builds. An implementation may realize only part of this framework; conformance must name the part it implements.
+These examples provide a concrete entry into the deeper account. A reusable definition is one object; its uses, accumulated consequences, and output locations are different objects. The architecture makes those distinctions operational.
 
-## The defining insight
+```mermaid
+flowchart TD
+  A["Structured intent in the editor"] --> B["Local definitions and relationships"]
+  R["Versioned blueprint repositories"] -->|discover and import| B
+  B -->|export| R
+  X["Existing installed extension"] -->|extrude represented structure| B
+  B --> C["Resolve, classify, and retain context"]
+  C --> D["Complete deferred work and bind in stages"]
+  D --> E["Native component, module, and plugin products"]
+  E -->|recover designated edits| B
+```
 
-A reusable definition does not need to be rediscovered independently for every place it is used. It can be recollected by stable identity, interpreted in a particular occurrence context, and projected into several destinations. Equally, a generated artifact need not be a disposable endpoint: designated regions can become a controlled source of future knowledge.
+The repository exchange, installed-extension extrusion, and marked-edit recovery paths perform different transformations. The compiler connects them by consuming the resulting definitions through the same generation machinery. [Lifecycle](foundations/lifecycle.md)
 
-This yields a compact description:
+## Read the integrated argument
 
-> **Complete the context; derive within scope; bind in stages; materialize deliberately; reconcile only what has an explicit identity and preservation contract.**
+The [white paper](white-paper.md) presents the complete argument in one continuous article. The [reading guide](reading-guide.md) offers shorter routes through the same material.
 
-The contribution of this paper is to specify that composition, its assumptions, and its reusable contracts. It does not claim to have invented fixed points, dependency graphs, template substitution, or bidirectional transformations. [Related work](foundations/related-work.md) explains those relationships.
+The detailed chapters explain the [blueprint representation](blueprints/representation.md), [local-first discovery](blueprints/discovery.md), [compiler execution](compiler/execution.md), [semantic classification](compiler/classification.md), [intermediate stores](compiler/stores.md), [deferred work](compiler/deferred-work.md), and [binding stages](compiler/binding.md). Application-generation chapters follow those mechanisms into schemas, queries, interfaces, permissions, languages, routing, and packaging.
 
-## Read at the right depth
+The [formal model](formal/notation.md) expresses identities, state transitions, dependency traversal, contextual interpretation, and staged substitution without depending on PHP syntax. The [implementation guide](engineering/implementation.md) shows how those operations can be represented in another language. The [source map](reference/source-map.md) reconnects the abstraction to the implementation.
 
-The [white paper](white-paper.md) gives the argument, central equations, and conclusions in one article. The [definition](foundations/definition.md) specifies the architectural boundary. The [state model](semantics/state-space.md), [closure semantics](semantics/context-closure.md), and [round-trip laws](mechanisms/round-trip.md) provide the mathematical foundation. The [implementation guide](engineering/implementation-guide.md) translates the contracts into a language-independent design.
+## A development lifecycle, not a one-time scaffold
 
-[Joomla Component Builder](jcb/overview.md) is the originating implementation examined in the case study. Its public compiler source records the method's implementation from **30 January 2016**. That provenance is documented after the theory, rather than making Joomla knowledge a prerequisite for understanding it.
+Blueprints can be exported, reviewed in Git, imported into another JCB instance, and compiled again. Existing extensions can supply recoverable structure through [extrusion](extrusion/overview.md). Reusable library definitions can be acquired when needed and placed according to their resolved namespaces. Compiler and target-rule changes can then be applied through [regeneration](engineering/regeneration.md), rather than repeated separately across every application.
 
-## What is established, and what remains a research question?
+JCB's own generated application is part of this account. [Self-generation and maintenance](engineering/regeneration.md) explains the relationship between its blueprint, reusable library inputs, compiler, and generated application layers. [Build measurements](engineering/performance.md) distinguish blueprint size, supplied reusable code, output size, and elapsed compilation time.
 
-The paper distinguishes source observations, historical records, author testimony, formal deductions, proposed extensions, and hypotheses. The finite monotone model has provable closure and determinism properties under stated assumptions. Those proofs are not automatically proofs about every extension hook or mutation in an existing production system.
+**The subject is how these operations fit together.** The implementation gives the account its substance; the abstraction makes the approach available for examination and reuse beyond Joomla.
 
-The broader suggestion that the architecture resembles human recollection is developed as a testable research direction. It is not a conclusion that software registries are biological memory, or that a fast generator implements human understanding.
-
-**Originator:** Llewellyn van der Merwe. **Publisher:** Vast Development Method. **Edition:** 0.1.0, 15 September 2026. [Citation and rights](reference/citation.md).
+Every article has an exact Markdown equivalent. Authorship, source revisions, implementation coverage, and publication conventions are recorded in the [edition](reference/edition.md) and [citation](reference/citation.md) pages.
