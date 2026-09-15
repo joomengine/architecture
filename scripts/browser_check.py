@@ -28,7 +28,7 @@ def main() -> None:
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     base = f'http://127.0.0.1:{server.server_port}'
-    report = {'source_commit': data['source_commit'], 'pages': [], 'errors': [], 'interactions': {}}
+    report = {'source_commit': data['source_commit'], 'pages': [], 'mobile_pages': [], 'errors': [], 'interactions': {}}
     try:
         with sync_playwright() as playwright:
             launch = {'headless': True}
@@ -71,12 +71,12 @@ def main() -> None:
             page.wait_for_selector('.search-result')
             assert page.locator('.search-result').count() > 0, 'Search result count'
             page.keyboard.press('Escape')
-            # Native dialog cancellation is processed asynchronously by the browser.
             page.wait_for_function('!document.querySelector("#search-dialog").open')
             report['interactions']['search_and_escape'] = True
             page.goto(base + '/white-paper/', wait_until='networkidle')
             page.evaluate('async () => { await MathJax.startup.promise; await window.vdmtDiagramsReady; }')
-            page.locator('#3-state-identity-and-interpretation').scroll_into_view_if_needed()
+            # Select mathematical content by its role, not a title-specific CSS ID.
+            page.locator('.prose div.math').first.scroll_into_view_if_needed()
             page.screenshot(path=str(output / 'white-paper-math.png'))
             page.set_viewport_size({'width': 390, 'height': 844})
             page.emulate_media(color_scheme='light')
@@ -84,6 +84,7 @@ def main() -> None:
                 page.goto(base + record['url'], wait_until='networkidle')
                 page.evaluate('async () => { await MathJax.startup.promise; await window.vdmtDiagramsReady; }')
                 assert not page.evaluate('document.documentElement.scrollWidth > innerWidth + 2'), 'Mobile overflow: ' + record['url']
+                report['mobile_pages'].append(record['url'])
             page.goto(base + '/', wait_until='networkidle')
             page.locator('#menu-open').click()
             assert page.locator('#menu-dialog').evaluate('(node) => node.open'), 'Mobile navigation opens'
@@ -94,11 +95,15 @@ def main() -> None:
             browser.close()
     except Exception:
         report['errors'].append(traceback.format_exc())
+        try:
+            page.screenshot(path=str(output / 'failure.png'), full_page=True)
+        except Exception:
+            pass  # The browser may already be closed; retain the primary error.
     finally:
         server.shutdown()
         server.server_close()
         (output / 'browser.json').write_text(json.dumps(report, indent=2) + '\n')
-    print(json.dumps({'pages_checked': len(report['pages']), 'interactions': report['interactions'], 'errors': report['errors']}, indent=2))
+    print(json.dumps({'pages_checked': len(report['pages']), 'mobile_pages_checked': len(report['mobile_pages']), 'interactions': report['interactions'], 'errors': report['errors']}, indent=2))
     if report['errors']:
         raise SystemExit(1)
 
