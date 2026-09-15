@@ -1,15 +1,15 @@
 {
-  "title": "Vast Development Method Theory",
-  "short_title": "VDMT",
-  "subtitle": "Contextual recollection · Staged synthesis · Editorial reconciliation",
+  "title": "Joomla Component Builder: Contextual Compilation Architecture",
+  "short_title": "JCB Architecture",
+  "subtitle": "Structured intent · Contextual compilation · Portable blueprints",
   "author": "Llewellyn van der Merwe",
   "publisher": "Vast Development Method",
-  "version": "0.1.0",
-  "edition_date": "2026-09-15",
+  "version": "1.0.0",
+  "edition_date": "2026-09-16",
   "historical_implementation_date": "2016-01-30",
-  "url": "https://theory.vdm.io",
-  "repository": "https://github.com/vast-development-method/theory",
+  "url": "https://architecture.joomlacomponentbuilder.com",
+  "repository": "https://github.com/joomengine/architecture",
   "source_branch": "main",
   "license": "CC BY 4.0",
-  "sections": ["Overview", "Foundations", "Semantics", "Mechanisms", "JCB Case Study", "Engineering", "Applications", "Research", "Reference"]
+  "sections": ["Overview", "Foundations", "Blueprint Exchange", "Compiler", "Generation", "Extrusion", "Worked Examples", "Formal Model", "Engineering", "Reference"]
 }
