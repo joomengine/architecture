@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "Please cite the white paper when discussing VDMT; cite a pinned source revision for implementation claims."
+title: "Vast Development Method Theory: Contextual Recollection, Staged Synthesis, and Persistent Editorial Reconciliation"
+authors:
+  - family-names: "van der Merwe"
+    given-names: "Llewellyn"
+version: 0.1.0
+date-released: 2026-09-15
+url: "https://theory.vdm.io"
+repository-code: "https://github.com/vast-development-method/theory"
+license:
+  - CC-BY-4.0
+  - MIT
+keywords:
+  - contextual closure
+  - staged synthesis
+  - round-trip engineering
+  - compiler architecture
+  - scoped memory
+preferred-citation:
+  type: report
+  title: "Vast Development Method Theory: Contextual Recollection, Staged Synthesis, and Persistent Editorial Reconciliation"
+  authors:
+    - family-names: "van der Merwe"
+      given-names: "Llewellyn"
+  year: 2026
+  version: 0.1.0
+  institution:
+    name: "Vast Development Method"
+  url: "https://theory.vdm.io"
