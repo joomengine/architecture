@@ -22,6 +22,7 @@
   window.MathJax = {tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
   </script>
   <link rel="stylesheet" href="/assets/site.css">
+  <link rel="stylesheet" href="/assets/wordmark.css">
   <script defer src="/assets/vendor/mathjax/tex-svg.js"></script>
   <script type="module" src="/assets/site.js"></script>
 </head>
@@ -50,7 +51,7 @@
   </aside>
   <main id="main" tabindex="-1">
     <div class="article-meta"><span class="eyebrow">{{ article.meta.section }}</span><span>{{ minutes }} min read · Edition {{ config.version }}</span></div>
-    {% if article.path == 'index.md' %}<div class="wordmark"><img src="/assets/wordmark.webp" width="440" height="112" alt="Vast Development Method"><span>THEORY</span></div>{% endif %}
+    {% if article.path == 'index.md' %}<div class="wordmark"><img src="/assets/wordmark.png" width="1192" height="75" alt="Vast Development Method Theory" decoding="async"></div>{% endif %}
     <div class="article-tools" aria-label="Article formats and sharing"><a href="{{ markdown_url }}">Read Markdown</a><a href="{{ markdown_url }}" download>Download Markdown</a><button type="button" data-copy="{{ canonical }}">Copy link</button><button type="button" data-copy="{{ citation }}">Cite</button><a href="{{ source_url }}">Source</a></div>
     <article class="prose">{{ article.rendered|safe }}</article>
     <div class="evidence-note"><span>Evidence profile</span><strong>{{ article.meta.evidence }}</strong><a href="/foundations/epistemic-status/">How to read a claim</a></div>

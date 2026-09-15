@@ -1,6 +1,10 @@
 VDM branding identifies this official Vast Development Method publication.
-wordmark.webp is a resized derivative of vast_development_method.jpg supplied
-by the publication's originator.
+wordmark.png is a transparent, lettering-only derivative of the originator's
+supplied vast_development_method.jpg. The original VAST DEVELOPMENT METHOD
+lettering is isolated from its decorative background. THEORY is composed on the
+same baseline, reusing the source T/H/E/O glyphs and matching R/Y
+letterforms. No claim is made to have recovered or redistributed the original
+font file. The image contains no background plate or decorative mosaic.
 
 The small mark and favicon are derived from official VDM branding. The build
 first requests https://www.vdm.io/VDM.png. When that endpoint rejects automated
