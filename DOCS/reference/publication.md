@@ -23,8 +23,8 @@ The build produces:
 
 | Artifact | Purpose |
 | --- | --- |
-| `/jcb-architecture-complete.md` | A combined reading edition |
-| `/jcb-architecture-markdown.zip` | All article sources in their directory structure |
+| `/downloads/jcb-architecture-complete.md` | A combined reading edition |
+| `/downloads/jcb-architecture-markdown.zip` | All article sources in their directory structure |
 | `/articles.json` | Article metadata, canonical/Markdown addresses, and SHA-256 hashes |
 | `/search.json` | Searchable titles, descriptions, and article text |
 | `/llms.txt` | Machine-readable publication entry points |
@@ -44,6 +44,7 @@ python -m pip install -r requirements.txt -r requirements-dev.txt
 python -m unittest discover -s tests -v
 python examples/demo.py
 python scripts/vendor.py
+python scripts/prepare_evidence.py
 python scripts/build.py
 python scripts/check_site.py
 python -m playwright install chromium

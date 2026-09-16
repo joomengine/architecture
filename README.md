@@ -27,6 +27,7 @@ python -m pip install -r requirements.txt -r requirements-dev.txt
 python -m unittest discover -s tests -v
 python examples/demo.py
 python scripts/vendor.py
+python scripts/prepare_evidence.py
 python scripts/build.py
 python scripts/check_site.py
 python -m playwright install chromium

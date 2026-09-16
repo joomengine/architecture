@@ -32,8 +32,8 @@ def main() -> None:
     try:
         with sync_playwright() as playwright:
             launch = {'headless': True}
-            if os.environ.get('VDMT_BROWSER_EXECUTABLE'):
-                launch['executable_path'] = os.environ['VDMT_BROWSER_EXECUTABLE']
+            if os.environ.get('JCB_ARCHITECTURE_BROWSER_EXECUTABLE'):
+                launch['executable_path'] = os.environ['JCB_ARCHITECTURE_BROWSER_EXECUTABLE']
             browser = playwright.chromium.launch(**launch)
             context = browser.new_context(viewport={'width': 1440, 'height': 1000}, color_scheme='light')
             page = context.new_page()
@@ -41,12 +41,13 @@ def main() -> None:
             for record in data['articles']:
                 response = page.goto(base + record['url'], wait_until='networkidle')
                 assert response is not None and response.status == 200, record['url']
-                page.evaluate('async () => { await MathJax.startup.promise; await window.vdmtDiagramsReady; }')
+                page.evaluate('async () => { await MathJax.startup.promise; await window.jcbDiagramsReady; }')
                 assert page.locator('h1').count() == 1, record['url']
                 math_count = page.locator('.math').count()
                 if math_count:
-                    assert page.locator('mjx-container[jax="SVG"]').count() > 0, record['url']
+                    assert page.locator('.math').evaluate_all("nodes => nodes.every(node => node.querySelector('mjx-container'))"), 'Unrendered math: ' + record['url']
                 assert page.locator('[data-mml-node="merror"]').count() == 0, record['url']
+                assert page.locator('img').evaluate_all('nodes => nodes.every(node => node.complete && node.naturalWidth > 0)'), 'Unloaded image: ' + record['url']
                 diagrams = page.locator('.mermaid').count()
                 assert page.locator('.mermaid svg').count() == diagrams, record['url']
                 assert not page.evaluate('document.documentElement.scrollWidth > innerWidth + 2'), 'Desktop overflow: ' + record['url']
@@ -54,11 +55,12 @@ def main() -> None:
                 assert raw.status == 200 and raw.body() == (ROOT / 'DOCS' / record['path']).read_bytes(), 'Markdown mismatch: ' + record['url']
                 report['pages'].append({'url': record['url'], 'math_regions': math_count, 'diagrams': diagrams, 'markdown_exact': True})
             page.goto(base + '/', wait_until='networkidle')
-            page.evaluate('async () => { await MathJax.startup.promise; await window.vdmtDiagramsReady; }')
+            page.evaluate('async () => { await MathJax.startup.promise; await window.jcbDiagramsReady; }')
             assert page.locator('html').get_attribute('data-theme') == 'light', 'Initial system theme'
             page.screenshot(path=str(output / 'home-light.png'), full_page=True)
             page.emulate_media(color_scheme='dark')
             page.wait_for_function('document.documentElement.dataset.theme === "dark"')
+            page.evaluate('async () => { await window.jcbDiagramsReady; }')
             page.screenshot(path=str(output / 'home-dark.png'), full_page=True)
             page.select_option('#theme', 'light')
             page.reload(wait_until='networkidle')
@@ -67,14 +69,14 @@ def main() -> None:
             page.wait_for_function('document.documentElement.dataset.theme === "dark"')
             report['interactions']['system_and_manual_theme'] = True
             page.locator('.sidebar .search-open').click()
-            page.fill('#search-input', 'context closure')
+            page.fill('#search-input', 'blueprint')
             page.wait_for_selector('.search-result')
             assert page.locator('.search-result').count() > 0, 'Search result count'
             page.keyboard.press('Escape')
             page.wait_for_function('!document.querySelector("#search-dialog").open')
             report['interactions']['search_and_escape'] = True
             page.goto(base + '/white-paper/', wait_until='networkidle')
-            page.evaluate('async () => { await MathJax.startup.promise; await window.vdmtDiagramsReady; }')
+            page.evaluate('async () => { await MathJax.startup.promise; await window.jcbDiagramsReady; }')
             # Select mathematical content by its role, not a title-specific CSS ID.
             page.locator('.prose div.math').first.scroll_into_view_if_needed()
             page.screenshot(path=str(output / 'white-paper-math.png'))
@@ -82,7 +84,7 @@ def main() -> None:
             page.emulate_media(color_scheme='light')
             for record in data['articles']:
                 page.goto(base + record['url'], wait_until='networkidle')
-                page.evaluate('async () => { await MathJax.startup.promise; await window.vdmtDiagramsReady; }')
+                page.evaluate('async () => { await MathJax.startup.promise; await window.jcbDiagramsReady; }')
                 assert not page.evaluate('document.documentElement.scrollWidth > innerWidth + 2'), 'Mobile overflow: ' + record['url']
                 report['mobile_pages'].append(record['url'])
             page.goto(base + '/', wait_until='networkidle')

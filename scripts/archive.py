@@ -10,13 +10,13 @@ def main() -> None:
     site = ROOT / 'site'
     if not (site / 'articles.json').is_file():
         raise SystemExit('Build the publication before archiving it.')
-    with zipfile.ZipFile(ROOT / 'vdmt-site.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
+    with zipfile.ZipFile(ROOT / 'jcb-architecture-site.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
         for path in sorted(site.rglob('*')):
             if path.is_file():
                 if path.suffix.lower() in {'.woff', '.woff2', '.ttf', '.otf', '.eot'}:
                     raise ValueError('Font files must not be included.')
                 archive.write(path, 'site/' + path.relative_to(site).as_posix())
-    print('Created vdmt-site.zip')
+    print('Created jcb-architecture-site.zip')
 
 
 if __name__ == '__main__':

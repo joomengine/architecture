@@ -12,7 +12,7 @@ async function drawDiagrams() {
   for (const {node, source} of diagrams) { node.removeAttribute('data-processed'); node.textContent = source; }
   await mermaid.run({nodes:diagrams.map(item => item.node)});
 }
-function queueDiagrams() { diagramJob = diagramJob.then(drawDiagrams); window.vdmtDiagramsReady = diagramJob; return diagramJob; }
+function queueDiagrams() { diagramJob = diagramJob.then(drawDiagrams); window.jcbDiagramsReady = diagramJob; return diagramJob; }
 function applyTheme(mode) {
   if (!['system','light','dark'].includes(mode)) mode = 'system';
   root.dataset.preference = mode;
@@ -21,7 +21,7 @@ function applyTheme(mode) {
   return queueDiagrams();
 }
 preference.value = root.dataset.preference || 'system';
-preference.addEventListener('change', () => { try { localStorage.setItem('vdmt-theme', preference.value); } catch (_) {} applyTheme(preference.value); });
+preference.addEventListener('change', () => { try { localStorage.setItem('jcb-architecture-theme', preference.value); } catch (_) {} applyTheme(preference.value); });
 media.addEventListener('change', () => { if (root.dataset.preference === 'system') applyTheme('system'); });
 queueDiagrams();
 

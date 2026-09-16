@@ -4,6 +4,8 @@ __pycache__/
 site/
 vendor/
 validation/
-vdmt-source.zip
-vdmt-site.zip
+jcb-architecture-source.zip
+jcb-architecture-site.zip
 .DS_Store
+
+web/static/evidence/
