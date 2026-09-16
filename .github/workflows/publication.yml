@@ -43,6 +43,8 @@ jobs:
           python examples/demo.py > validation/reference-demo.json
       - name: Acquire versioned browser assets
         run: python scripts/vendor.py
+      - name: Verify pinned blueprint and product evidence
+        run: python scripts/prepare_evidence.py
       - name: Build Markdown-first publication
         run: python scripts/build.py
       - name: Archive built publication for review

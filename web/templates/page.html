@@ -4,13 +4,19 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
-  <title>{{ article.meta.title }} · VDMT</title>
+  <title>{{ article.meta.title }} · {{ config.short_title }}</title>
   <meta name="description" content="{{ article.meta.description }}">
   <meta name="author" content="{{ config.author }}">
+  <meta name="citation_title" content="{{ article.meta.title }}">
+  <meta name="citation_author" content="{{ config.author }}">
+  <meta name="citation_publication_date" content="{{ config.edition_date }}">
+  <meta name="citation_technical_report_institution" content="{{ config.publisher }}">
+  <meta name="citation_fulltext_html_url" content="{{ canonical }}">
+  <meta property="og:site_name" content="{{ config.short_title }}">
   <link rel="canonical" href="{{ canonical }}">
   <link rel="alternate" type="text/markdown" title="Markdown source" href="{{ config.url }}{{ markdown_url }}">
   <link rel="license" href="https://creativecommons.org/licenses/by/4.0/">
-  <meta property="og:title" content="{{ article.meta.title }} · Vast Development Method Theory">
+  <meta property="og:title" content="{{ article.meta.title }} · {{ config.short_title }}">
   <meta property="og:description" content="{{ article.meta.description }}">
   <meta property="og:type" content="article">
   <meta property="og:url" content="{{ canonical }}">
@@ -18,20 +24,19 @@
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <script>
-  (() => { let mode = 'system'; try { mode = localStorage.getItem('vdmt-theme') || 'system'; } catch (_) {} if (!['system','light','dark'].includes(mode)) mode = 'system'; document.documentElement.dataset.preference = mode; document.documentElement.dataset.theme = mode === 'system' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : mode; })();
+  (() => { let mode = 'system'; try { mode = localStorage.getItem('jcb-architecture-theme') || 'system'; } catch (_) {} if (!['system','light','dark'].includes(mode)) mode = 'system'; document.documentElement.dataset.preference = mode; document.documentElement.dataset.theme = mode === 'system' ? (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : mode; })();
   window.MathJax = {tex:{inlineMath:[['\\(','\\)']],displayMath:[['$$','$$']],processEscapes:true},svg:{fontCache:'global'},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']}};
   </script>
   <link rel="stylesheet" href="/assets/site.css">
-  <link rel="stylesheet" href="/assets/wordmark.css">
   <script defer src="/assets/vendor/mathjax/tex-svg.js"></script>
   <script type="module" src="/assets/site.js"></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to article</a>
 <header class="topbar">
-  <a class="brand" href="/" aria-label="Vast Development Method Theory home">
+  <a class="brand" href="/" aria-label="Joomla Component Builder architecture home">
     <img src="/assets/vendor/brand/mark.png" width="42" height="42" alt="VDM">
-    <span><span class="brand-name">Vast Development Method</span><span class="brand-title">Theory<span class="edition"> / {{ config.version }}</span></span></span>
+    <span><span class="brand-name">Joomla Component Builder</span><span class="brand-title">Architecture<span class="edition"> / {{ config.version }}</span></span></span>
   </a>
   <div class="top-actions"><a class="paper-link" href="/white-paper/">Read the white paper</a><label class="theme-label" for="theme">Appearance</label><select id="theme" aria-label="Appearance"><option value="system">System</option><option value="light">Light</option><option value="dark">Dark</option></select><button id="menu-open" class="mobile-only" type="button" aria-haspopup="dialog">Contents</button></div>
 </header>
@@ -45,23 +50,22 @@
 <div class="layout">
   <aside class="sidebar">
     <div class="nav-heading">The publication <span>{{ total }} articles</span></div>
-    <button class="search-open" type="button">Search the theory <kbd>/</kbd></button>
+    <button class="search-open" type="button">Search the architecture <kbd>/</kbd></button>
     {{ navigation() }}
-    <div class="nav-resources"><a href="/downloads/vdmt-complete.md">Complete Markdown edition</a><a href="/downloads/vdmt-markdown.zip">Download Markdown archive</a><a href="/llms.txt">Machine-readable index</a><a href="/articles.json">Article manifest</a></div>
+    <div class="nav-resources"><a href="/downloads/jcb-architecture-complete.md">Complete Markdown edition</a><a href="/downloads/jcb-architecture-markdown.zip">Download Markdown archive</a><a href="/llms.txt">Machine-readable index</a><a href="/articles.json">Article manifest</a></div>
   </aside>
   <main id="main" tabindex="-1">
     <div class="article-meta"><span class="eyebrow">{{ article.meta.section }}</span><span>{{ minutes }} min read · Edition {{ config.version }}</span></div>
-    {% if article.path == 'index.md' %}<div class="wordmark"><img src="/assets/wordmark.png" width="1192" height="75" alt="Vast Development Method Theory" decoding="async"></div>{% endif %}
     <div class="article-tools" aria-label="Article formats and sharing"><a href="{{ markdown_url }}">Read Markdown</a><a href="{{ markdown_url }}" download>Download Markdown</a><button type="button" data-copy="{{ canonical }}">Copy link</button><button type="button" data-copy="{{ citation }}">Cite</button><a href="{{ source_url }}">Source</a></div>
     <article class="prose">{{ article.rendered|safe }}</article>
-    <div class="evidence-note"><span>Evidence profile</span><strong>{{ article.meta.evidence }}</strong><a href="/foundations/epistemic-status/">How to read a claim</a></div>
+    <div class="evidence-note"><span>Article basis</span><strong>{{ article.meta.evidence }}</strong><a href="/reference/edition/">Edition and sources</a></div>
     <nav class="page-turn" aria-label="Adjacent articles">{% if previous %}<a href="{{ previous.url }}"><small>Previous</small>{{ previous.meta.title }}</a>{% endif %}{% if following %}<a href="{{ following.url }}"><small>Next</small>{{ following.meta.title }}</a>{% endif %}</nav>
     <footer class="article-footer"><p>{{ config.author }} · {{ config.publisher }}</p><p>Original text and diagrams: <a href="/reference/licensing/">CC BY 4.0</a> · <a href="/reference/citation/">Citation</a> · <a href="/reference/publication/">Publication details</a></p><p class="revision">Edition {{ config.edition_date }} · Source {{ commit[:12] }}</p></footer>
   </main>
   <aside class="toc" aria-label="On this page"><div class="nav-heading">On this page</div><nav>{% for item in toc %}<a class="level-{{ item.level }}" href="#{{ item.id }}">{{ item.text }}</a>{% endfor %}</nav><a class="back-top" href="#main">Back to top ↑</a></aside>
 </div>
-<dialog id="menu-dialog" class="menu-dialog"><div class="dialog-heading"><strong>Publication contents</strong><button type="button" data-close="menu-dialog">Close</button></div><button class="search-open" type="button">Search the theory</button>{{ navigation() }}<a href="/downloads/vdmt-markdown.zip">Download all Markdown</a></dialog>
-<dialog id="search-dialog" class="search-dialog"><div class="dialog-heading"><label for="search-input">Search the theory</label><button type="button" data-close="search-dialog">Close</button></div><input id="search-input" type="search" placeholder="Context, closure, recollection…" autocomplete="off"><p id="search-status" role="status">Search article titles and the complete text.</p><div id="search-results"></div></dialog>
+<dialog id="menu-dialog" class="menu-dialog"><div class="dialog-heading"><strong>Publication contents</strong><button type="button" data-close="menu-dialog">Close</button></div><button class="search-open" type="button">Search the architecture</button>{{ navigation() }}<a href="/downloads/jcb-architecture-markdown.zip">Download all Markdown</a></dialog>
+<dialog id="search-dialog" class="search-dialog"><div class="dialog-heading"><label for="search-input">Search the architecture</label><button type="button" data-close="search-dialog">Close</button></div><input id="search-input" type="search" placeholder="Blueprints, compilation, extrusion…" autocomplete="off"><p id="search-status" role="status">Search article titles and the complete text.</p><div id="search-results"></div></dialog>
 <div id="copy-status" class="toast" role="status" aria-live="polite"></div>
 <noscript><p class="noscript">Article text, navigation, and Markdown downloads work without JavaScript. Search, theme overrides, diagrams, and mathematical typesetting use local JavaScript.</p></noscript>
 </body>

@@ -1,1 +1,1 @@
-"""Runnable synthetic examples for the original VDMT reference model."""
+"""Runnable examples of the contextual compilation architectural mechanisms."""

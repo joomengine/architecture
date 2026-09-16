@@ -84,7 +84,7 @@ def main() -> None:
     for record in listed:
         if config['url'] + record['markdown_url'] not in llms or config['url'] + record['url'] not in sitemap:
             errors.append(f'{record["path"]}: missing discovery entry.')
-    with zipfile.ZipFile(SITE / 'downloads' / 'vdmt-markdown.zip') as archive:
+    with zipfile.ZipFile(SITE / 'downloads' / 'jcb-architecture-markdown.zip') as archive:
         for record in records:
             if archive.read('DOCS/' + record['path']) != (ROOT / 'DOCS' / record['path']).read_bytes():
                 errors.append(f'{record["path"]}: Markdown archive mismatch.')
